@@ -3,6 +3,7 @@ const TEMPLATE_KEY = "bodywork_timer_templates_v1";
 
 const defaultPlan = {
   totalMinutes: 120,
+
   sections: [
     {
       name: "もみほぐし",
@@ -60,9 +61,7 @@ const el = {
   goRunBtn: document.getElementById("goRunBtn"),
 
   totalMinutes: document.getElementById("totalMinutes"),
-  remainingBadge: document.getElementById("remainingBadge"),
-  planTimeline: document.getElementById("planTimeline"),
-  timelineLegend: document.getElementById("timelineLegend"),
+
   sectionsContainer: document.getElementById("sectionsContainer"),
   detailsContainer: document.getElementById("detailsContainer"),
   sectionSummary: document.getElementById("sectionSummary"),
@@ -109,7 +108,7 @@ function bindEvents() {
     resetRuntime(false);
   });
 
-  ["totalMinutes"].forEach((key) => {
+
     el[key].addEventListener("input", () => {
       state.plan[key] = toInt(el[key].value);
       savePlan();
@@ -172,38 +171,12 @@ function renderAll() {
 function renderBasics() {
   el.totalMinutes.value = state.plan.totalMinutes;
 
-  const used = sumSectionsMinutes();
   const remain = state.plan.totalMinutes - used;
   el.remainingBadge.textContent = remain >= 0
     ? `残り ${remain} 分（施術時間に対して余裕あり）`
     : `超過 ${Math.abs(remain)} 分（時間調整が必要）`;
   el.remainingBadge.className = `badge ${remain >= 0 ? "ok" : "warn"}`;
-  el.sectionSummary.textContent = `予約時間: ${state.plan.totalMinutes} 分 / 大分類合計: ${sumSectionsMinutes()} 分`;
-  renderTimeline();
-}
 
-function renderTimeline() {
-  const total = Math.max(1, state.plan.totalMinutes);
-  const palette = ["#60a5fa", "#34d399", "#f59e0b", "#f472b6", "#a78bfa", "#2dd4bf", "#fb7185", "#94a3b8"];
-  el.planTimeline.innerHTML = "";
-  el.timelineLegend.innerHTML = "";
-
-  state.plan.sections.forEach((section, idx) => {
-    const ratio = Math.max(0, toInt(section.minutes)) / total;
-    const color = palette[idx % palette.length];
-
-    const segment = document.createElement("div");
-    segment.className = "timeline-segment";
-    segment.style.background = color;
-    segment.style.width = `${Math.max(ratio * 100, 1)}%`;
-    segment.title = `${section.name}: ${section.minutes}分`;
-    el.planTimeline.append(segment);
-
-    const item = document.createElement("div");
-    item.className = "timeline-item";
-    item.innerHTML = `<span><i class="timeline-dot" style="background:${color}"></i>${section.name}</span><strong>${section.minutes}分 (${Math.round(ratio * 100)}%)</strong>`;
-    el.timelineLegend.append(item);
-  });
 }
 
 function renderSections() {
@@ -311,6 +284,7 @@ function resetRuntime(withAnimation) {
 
 function buildQueueFromPlan(plan) {
   const queue = [];
+
 
   plan.sections.forEach((section, sIdx) => {
     if (section.steps.length === 0) {
@@ -495,7 +469,7 @@ function loadPlan() {
   try {
     const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
     if (!saved?.sections) return deepCopy(defaultPlan);
-    if (typeof saved.totalMinutes !== "number") saved.totalMinutes = defaultPlan.totalMinutes;
+
     return saved;
   } catch {
     return deepCopy(defaultPlan);
