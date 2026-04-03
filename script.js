@@ -3,8 +3,7 @@ const TEMPLATE_KEY = "bodywork_timer_templates_v1";
 
 const defaultPlan = {
   totalMinutes: 120,
-  counselingMinutes: 5,
-  prepMinutes: 5,
+
   sections: [
     {
       name: "もみほぐし",
@@ -62,9 +61,7 @@ const el = {
   goRunBtn: document.getElementById("goRunBtn"),
 
   totalMinutes: document.getElementById("totalMinutes"),
-  counselingMinutes: document.getElementById("counselingMinutes"),
-  prepMinutes: document.getElementById("prepMinutes"),
-  remainingBadge: document.getElementById("remainingBadge"),
+
   sectionsContainer: document.getElementById("sectionsContainer"),
   detailsContainer: document.getElementById("detailsContainer"),
   sectionSummary: document.getElementById("sectionSummary"),
@@ -111,7 +108,7 @@ function bindEvents() {
     resetRuntime(false);
   });
 
-  ["totalMinutes", "counselingMinutes", "prepMinutes"].forEach((key) => {
+
     el[key].addEventListener("input", () => {
       state.plan[key] = toInt(el[key].value);
       savePlan();
@@ -173,18 +170,13 @@ function renderAll() {
 
 function renderBasics() {
   el.totalMinutes.value = state.plan.totalMinutes;
-  el.counselingMinutes.value = state.plan.counselingMinutes;
-  el.prepMinutes.value = state.plan.prepMinutes;
 
-  const used = state.plan.counselingMinutes + state.plan.prepMinutes + sumSectionsMinutes();
   const remain = state.plan.totalMinutes - used;
   el.remainingBadge.textContent = remain >= 0
     ? `残り ${remain} 分（施術時間に対して余裕あり）`
     : `超過 ${Math.abs(remain)} 分（時間調整が必要）`;
   el.remainingBadge.className = `badge ${remain >= 0 ? "ok" : "warn"}`;
 
-  const secRemain = state.plan.totalMinutes - (state.plan.counselingMinutes + state.plan.prepMinutes);
-  el.sectionSummary.textContent = `施術パートに使える時間: ${Math.max(secRemain, 0)} 分 / 大分類合計: ${sumSectionsMinutes()} 分`;
 }
 
 function renderSections() {
@@ -292,8 +284,7 @@ function resetRuntime(withAnimation) {
 
 function buildQueueFromPlan(plan) {
   const queue = [];
-  if (plan.counselingMinutes > 0) queue.push({ id: "meta-counsel", name: "カウンセリング", sec: plan.counselingMinutes * 60 });
-  if (plan.prepMinutes > 0) queue.push({ id: "meta-prep", name: "準備", sec: plan.prepMinutes * 60 });
+
 
   plan.sections.forEach((section, sIdx) => {
     if (section.steps.length === 0) {
@@ -478,6 +469,7 @@ function loadPlan() {
   try {
     const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
     if (!saved?.sections) return deepCopy(defaultPlan);
+
     return saved;
   } catch {
     return deepCopy(defaultPlan);
