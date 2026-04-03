@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>施術タイマー</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="topbar card glass">
+        <h1>施術フロータイマー</h1>
+        <div class="topbar-actions">
+          <button id="goSettingsBtn" class="btn secondary">設定</button>
+          <button id="goRunBtn" class="btn primary">実行画面へ</button>
+        </div>
+      </header>
+
+      <main>
+        <section id="settingsView" class="view active">
+          <div class="grid two-col">
+            <article class="card">
+              <h2>1. 基本設定</h2>
+              <div class="form-grid">
+                <label>予約時間(分)
+                  <input id="totalMinutes" type="number" min="10" step="1" />
+                </label>
+                <label>カウンセリング(分)
+                  <input id="counselingMinutes" type="number" min="0" step="1" />
+                </label>
+                <label>準備時間(分)
+                  <input id="prepMinutes" type="number" min="0" step="1" />
+                </label>
+              </div>
+              <p id="remainingBadge" class="badge"></p>
+            </article>
+
+            <article class="card">
+              <h2>プラン保存 / テンプレート</h2>
+              <div class="stack">
+                <label>テンプレート名
+                  <input id="templateNameInput" type="text" placeholder="例: 120分 標準コース" />
+                </label>
+                <div class="button-row wrap">
+                  <button id="saveTemplateBtn" class="btn secondary">保存</button>
+                  <button id="duplicateTemplateBtn" class="btn secondary">複製保存</button>
+                  <button id="loadTemplateBtn" class="btn secondary">読み込み</button>
+                  <button id="deleteTemplateBtn" class="btn danger">削除</button>
+                </div>
+                <label>保存済みテンプレート
+                  <select id="templateSelect"></select>
+                </label>
+              </div>
+            </article>
+          </div>
+
+          <article class="card">
+            <div class="section-header">
+              <h2>2. 大枠メニュー設定</h2>
+              <button id="addSectionBtn" class="btn secondary">+ 大分類を追加</button>
+            </div>
+            <p id="sectionSummary" class="helper-text"></p>
+            <div id="sectionsContainer" class="stack"></div>
+          </article>
+
+          <article class="card">
+            <h2>3. 詳細部位設定</h2>
+            <p class="helper-text">各大分類の中にサブ工程を追加してください。並び順が実行順になります。</p>
+            <div id="detailsContainer" class="stack"></div>
+          </article>
+        </section>
+
+        <section id="runView" class="view">
+          <article class="card run-card" id="runCard">
+            <div class="progress-wrap">
+              <div id="progressText" class="progress-text">0 / 0 完了</div>
+              <div class="progress-bar"><div id="progressFill"></div></div>
+            </div>
+
+            <div class="timer-main">
+              <p class="label">現在の工程</p>
+              <h2 id="currentStepName">-</h2>
+              <div id="currentStepRemain" class="big-time">00:00</div>
+              <p id="nextStepName" class="next-step">次: -</p>
+            </div>
+
+            <div class="timer-sub">
+              <div class="sub-item">
+                <span>全体残り</span>
+                <strong id="totalRemain">00:00</strong>
+              </div>
+              <div class="sub-item memo-item">
+                <span>今の工程メモ</span>
+                <input id="liveMemoInput" type="text" maxlength="80" placeholder="1行メモ" />
+              </div>
+            </div>
+
+            <div class="button-row wrap controls">
+              <button id="startBtn" class="btn primary">開始</button>
+              <button id="pauseBtn" class="btn secondary">一時停止</button>
+              <button id="resumeBtn" class="btn secondary">再開</button>
+              <button id="prevBtn" class="btn secondary">前へ戻る</button>
+              <button id="skipBtn" class="btn secondary">次へスキップ</button>
+            </div>
+
+            <div class="button-row wrap controls">
+              <button data-adjust="30" class="btn tertiary adjustBtn">+30秒</button>
+              <button data-adjust="60" class="btn tertiary adjustBtn">+1分</button>
+              <button data-adjust="-30" class="btn tertiary adjustBtn">-30秒</button>
+              <button data-adjust="-60" class="btn tertiary adjustBtn">-1分</button>
+              <button id="stopBtn" class="btn danger">全体停止</button>
+              <button id="restartBtn" class="btn secondary">最初から</button>
+            </div>
+
+            <label class="sound-toggle"><input id="soundEnabled" type="checkbox" checked /> 通知音 ON</label>
+          </article>
+        </section>
+      </main>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
