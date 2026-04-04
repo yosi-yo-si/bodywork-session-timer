@@ -68,7 +68,7 @@ p { margin: 0; }
 
 .form-grid {
   display: grid;
-  grid-template-columns: repeat(1, minmax(140px, 1fr));
+
   gap: 10px;
 }
 
@@ -106,64 +106,7 @@ input, select {
 .badge.warn { color: var(--warn); }
 .helper-text { color: var(--muted); margin-bottom: 12px; }
 .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-.timeline-wrap { margin-top: 14px; }
-.distribution-preview {
-  padding: 12px;
-  border-radius: 14px;
-  background: rgba(127, 127, 127, 0.08);
-}
-.preview-head {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-}
-.preview-alert {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--warn);
-}
-.timeline-bar {
-  height: 36px;
-  border-radius: 999px;
-  overflow: hidden;
-  display: flex;
-  background: rgba(127, 127, 127, 0.2);
-}
-.timeline-segment {
-  min-width: 6px;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  font-weight: 700;
-  color: rgba(255, 255, 255, 0.95);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  padding: 0 8px;
-}
-.timeline-legend {
-  margin-top: 10px;
-  display: grid;
-  gap: 6px;
-}
-.timeline-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  font-size: 14px;
-  color: var(--muted);
-}
-.timeline-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 999px;
-  display: inline-block;
-  margin-right: 6px;
-}
+
 
 .section-row, .step-row {
   display: grid;
