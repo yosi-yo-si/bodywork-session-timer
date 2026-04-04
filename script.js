@@ -171,6 +171,7 @@ function renderAll() {
 function renderBasics() {
   el.totalMinutes.value = state.plan.totalMinutes;
 
+
   const remain = state.plan.totalMinutes - used;
   el.remainingBadge.textContent = remain >= 0
     ? `残り ${remain} 分（施術時間に対して余裕あり）`
@@ -469,7 +470,7 @@ function loadPlan() {
   try {
     const saved = JSON.parse(localStorage.getItem(STORAGE_KEY));
     if (!saved?.sections) return deepCopy(defaultPlan);
-
+<
     return saved;
   } catch {
     return deepCopy(defaultPlan);
